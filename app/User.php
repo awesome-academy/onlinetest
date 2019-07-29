@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'firstname',
+        'lastname',
+        'name',
+        'email',
+        'phone',
+        'address',
+        'birthday',
+        'active',
+        'image_id',
+        'role_id',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
@@ -25,15 +40,47 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function file()
+    {
+        return $this->hasOne('App\Models\File', 'id', 'image_id');
+    }
+
+    public function listTestViewByUser()
+    {
+        return $this->belongsToMany('App\Models\Test', 'test_user', 'user_id', 'test_id');
+    }
+
+    public function createdTests()
+    {
+        return $this->hasMany('App\Models\Test', 'created_user_id', 'id');
+    }
+
+    public function histories()
+    {
+        return $this->hasMany('App\Models\History', 'user_id', 'id');
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany('App\Models\Blog', 'created_user_id', 'id');
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany('App\Models\Feedback', 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comments', 'user_id', 'id');
+    }
+
+    public function role()
+    {
+        return $this->hasOne('App\Models\Role', 'id', 'role_id');
+    }
 }
