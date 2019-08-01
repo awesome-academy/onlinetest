@@ -33,8 +33,8 @@ return [
                 'address' => 'Address',
                 'role' => 'Role',
                 'actions' => 'Actions',
-            ]
-        ]
+            ],
+        ],
     ],
     'category' => [
         'categories' => 'Categories',

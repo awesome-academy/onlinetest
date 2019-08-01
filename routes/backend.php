@@ -18,3 +18,7 @@ Route::get('admin/first-login', 'FirstLoginController@getFirstLoginAdmin')->name
 Route::post('admin/first-login', 'FirstLoginController@postFirstLogin')->name('admin.postFirstLogin');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'checkFirstLogin']], function () {
+    Route::get('/', 'HomeController@index')->name('admin.home');
+});
