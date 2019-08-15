@@ -32,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
             'QuestionRepositoryInterface' => 'QuestionRepository',
             'AnswerRepositoryInterface' => 'AnswerRepository',
             'CommentRepositoryInterface' => 'CommentRepository',
+            'TestQuestionRepositoryInterface' => 'TestQuestionRepository',
+            'HomeAdminRepositoryInterface' => 'HomeAdminRepository',
+            'HistoryRepositoryInterface' => 'HistoryRepository',
         ];
         foreach ($repositories as $key => $val) {
             $this->app->bind("App\\Repositories\\Contracts\\$key", "App\\Repositories\\Eloquents\\$val");
